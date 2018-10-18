@@ -111,7 +111,7 @@ footer {
 }
 
 #letterBoxes li {
-  display: inline-flex;
+  display: none;
 }
 
 #letterBoxes input {
