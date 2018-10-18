@@ -15,16 +15,16 @@ var startTime; // Mäter tiden
 function init() {
 
     wordList = [
-        "chas",
-        "academy",
-        "html",
-        "javascript",
-        "bootstrap",
-        "foundation",
-        "boilerplate",
-        "angular",
-        "react",
-        "firefox"
+        "CHAS",
+        "ACADEMY",
+        "HTML",
+        "JAVASCRIPT",
+        "BOOTSTRAP",
+        "FOUNDATION",
+        "BOILERPLATE",
+        "ANGULAR",
+        "REACT",
+        "FIREFOX"
     ];
 
     selectedWord = randomWord(wordList);
@@ -35,9 +35,17 @@ function init() {
 
     letterBoxes = document.querySelectorAll("#letterBoxes li");
 
+    letterButtons = document.querySelectorAll("#letterButtons button");
+
+    for (i = 0; i < letterButtons.length; i++) {
+        selectedLetter = letterButtons[i].value;
+        letterButtons[i].addEventListener("click", function(){writeLetterBox((selectedLetter))} );
+        console.log(selectedLetter);
+    }
+
     console.log(selectedWord);
 
-    // setLetterBoxes(selectedWord);
+    console.log(letterBoxes[2].firstElementChild.value);
 
 } // End init
 
@@ -66,6 +74,9 @@ function setLetterBoxes(word) {
 }
 
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav
+function writeLetterBox(selectedLetter) {
+    console.log(selectedLetter);
+}
 
 // Funktionen ropas vid vinst eller förlust, gör olika saker beroende av det
 
