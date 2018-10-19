@@ -117,7 +117,7 @@ footer {
 }
 
 #letterBoxes li {
-  display: none;
+  display: inline-flex;
 }
 
 #letterBoxes input {
@@ -130,6 +130,7 @@ footer {
   padding: 20px 5px;
   text-align: center;
   width: 2em;
+  display: none;
 }
 
 #message {
