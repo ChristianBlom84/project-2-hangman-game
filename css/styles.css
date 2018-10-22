@@ -227,3 +227,15 @@ footer {
   );
   border-top: 1px solid #000;
 }
+
+#frogWin {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: center no-repeat url(../images/gamewin.png);
+  background-color: rgba(100, 100, 100, 0.5);
+  display: none;
+}

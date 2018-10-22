@@ -102,12 +102,17 @@ function writeLetterBox(selectedLetter) {
     // debugger;
     var foundLetter = false;
     var gameWon;
+    var foundWord = "";
 
     for (var i = 0; i < selectedWord.length; i++) {
         if (selectedWord.charAt(i) === selectedLetter.target.value) {
             letterBoxes[i].value = selectedLetter.target.value;
             foundLetter = true;
         } 
+        
+        if (letterBoxes[i].value !== "") {
+            foundWord = foundWord + letterBoxes[i].value;
+        }
     }
 
     if (foundLetter === false && hangmanImgNr < 6) {
@@ -121,18 +126,13 @@ function writeLetterBox(selectedLetter) {
             gameEnd("lose");
         }
 
-        console.log(hangmanImg);
-
-    }
-
-    for (var i = 0; i < selectedWord.length; i++) {
-        if (selectedLetter.target.value) {
-            letterBoxes[i].value = selectedLetter.target.value;
-            foundLetter = true;
-        } 
     }
 
     selectedLetter.target.disabled = true;
+
+    if (foundWord.length === selectedWord.length) {
+        gameEnd("win");
+    }
     
     console.log(selectedLetter.target.value);
 }
@@ -140,7 +140,18 @@ function writeLetterBox(selectedLetter) {
 // Funktionen ropas vid vinst eller förlust, gör olika saker beroende av det
 function gameEnd(state) {
     if (state === "win") {
+        // debugger;
         msgElem.innerHTML = ("Congratulations, you win!");
+        
+        var frogEl = document.querySelector("#frogWin");
+        frogEl.style.display = "block";
+
+        function removeFrog () {
+            frogEl.style.display = "none";
+            frogEl.removeEventListener("click", removeFrog);
+        }
+        frogEl.addEventListener("click", removeFrog);
+
     } else if (state === "lose") {
         msgElem.innerHTML = ("Too bad, you lost! Try again.");
     }
