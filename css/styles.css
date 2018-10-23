@@ -58,6 +58,8 @@ main > article {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  max-width: 900px;
+  margin: auto;
 }
 
 main > article > button {

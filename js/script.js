@@ -28,8 +28,6 @@ function init() {
         "FIREFOX"
     ];
 
-    // selectedWord = randomWord(wordList);
-
     startGameBtn = document.querySelector("#startGameBtn");
 
     startGameBtn.addEventListener("click", startGame);
@@ -53,53 +51,69 @@ function init() {
         "images/h3.png",
         "images/h4.png",
         "images/h5.png",
-        "images/h6.png"
+        "images/h6.png",
+        "images/h7.png",
+        "images/h8.png"
     ];
 
     hangmanImgNr = 0;
 
     msgElem = document.querySelector("#message");
 
-    console.log(selectedWord);
-
 } // End init
 
 window.onload = init; // Se till att init aktiveras då sidan är inladdad
 
 // Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
+
 function startGame() {
 
     hangmanImgNr = 0;
     var hangmanImgEl = document.querySelector("#hangman");
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
 
-    msgElem.innerHTML = "";
+    msgElem.textContent = "";
     letterButtons.addEventListener("click", buttonListener);
     selectedWord = randomWord(wordList);
     setLetterBoxes(selectedWord);
     reactivateButtons();
 }
 
-// Funktion som slumpar fram ett ord
+/**
+ * This function chooses a random word from a preset word array.
+ *
+ * @param {*} wordArray
+ * @returns {string} String of random index of wordArray
+ */
 function randomWord(wordArray) {
+    debugger;
+    console.log(wordArray[Math.floor(Math.random() * 10)]);
     return wordArray[Math.floor(Math.random() * 10)];
 }
  
 // Funktionen som tar fram bokstävernas rutor, antal beror på vilket ord
+/**
+ * Shows the correct amount of letterBoxes based on the length of word
+ *
+ * @param {string} word
+ */
 function setLetterBoxes(word) {
-    for (var i = 0; i < 11; i++) {
-        letterBoxes[i].style.display = "none";
-    }
+    if (typeof word == "string") {
+        for (var i = 0; i < 11; i++) {
+            letterBoxes[i].style.display = "none";
+        }
 
-    for (var i = 0; i < word.length; i++) {
-        letterBoxes[i].style.display = "inline-flex";
-        letterBoxes[i].value = "";
+        for (var i = 0; i < word.length; i++) {
+            letterBoxes[i].style.display = "inline-flex";
+            letterBoxes[i].value = "";
+        }
+    } else {
+        alert("Error with word generation, aborting.");
     }
 }
 
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav
 function writeLetterBox(selectedLetter) {
-    // debugger;
     var foundLetter = false;
     var gameWon;
     var foundWord = "";
@@ -115,14 +129,14 @@ function writeLetterBox(selectedLetter) {
         }
     }
 
-    if (foundLetter === false && hangmanImgNr < 6) {
+    if (foundLetter === false && hangmanImgNr < 8) {
 
         var hangmanImgEl = document.querySelector("#hangman");
 
         hangmanImgNr++;
         hangmanImgEl.src = hangmanImg[hangmanImgNr];
 
-        if (hangmanImgNr >= 6) {
+        if (hangmanImgNr >= 8) {
             gameEnd("lose");
         }
 
@@ -134,14 +148,12 @@ function writeLetterBox(selectedLetter) {
         gameEnd("win");
     }
     
-    console.log(selectedLetter.target.value);
 }
 
 // Funktionen ropas vid vinst eller förlust, gör olika saker beroende av det
 function gameEnd(state) {
     if (state === "win") {
-        // debugger;
-        msgElem.innerHTML = ("Congratulations, you win!");
+        msgElem.textContent = ("Congratulations, you win!");
         
         var frogEl = document.querySelector("#frogWin");
         frogEl.style.display = "block";
@@ -153,18 +165,17 @@ function gameEnd(state) {
         frogEl.addEventListener("click", removeFrog);
 
     } else if (state === "lose") {
-        msgElem.innerHTML = ("Too bad, you lost! Try again.");
+        msgElem.textContent = ("Too bad, you lost! Try again.");
     }
 
     letterButtons.removeEventListener("click", buttonListener);
 }
 
 // Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på
+// Endast aktivering/återaktivering av knapparna, inaktivering är inbakad i funktionen som körs när man klickar på en knapp
 function reactivateButtons() {
 
     allLetterButtons = document.querySelectorAll("#letterButtons button");
-
-    console.log(allLetterButtons);
 
     for (var i = 0; i < allLetterButtons.length; i++) {
         allLetterButtons[i].disabled = false;
