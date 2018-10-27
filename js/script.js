@@ -4,6 +4,7 @@ var selectedWord; // Ett av orden valt av en slumpgenerator
 var letterBoxes; //Rutorna där bokstäverna ska stå
 var hangmanImg; //Bild som kommer vid fel svar
 var hangmanImgNr; // Vilken av bilderna som kommer upp beroende på hur många fel du gjort
+var hangmanImgEl; // Element for the hangmanImg
 var msgElem; // Ger meddelande när spelet är över
 var startGameBtn; // Knappen du startar spelet med
 var letterButtons; // Knapparna för bokstäverna
@@ -57,6 +58,7 @@ function init() {
     ];
 
     hangmanImgNr = 0;
+    hangmanImgEl = document.querySelector("#hangman");
 
     msgElem = document.querySelector("#message");
 
@@ -69,7 +71,6 @@ window.onload = init; // Se till att init aktiveras då sidan är inladdad
 function startGame() {
 
     hangmanImgNr = 0;
-    var hangmanImgEl = document.querySelector("#hangman");
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
 
     msgElem.textContent = "";
@@ -82,16 +83,14 @@ function startGame() {
 /**
  * This function chooses a random word from a preset word array.
  *
- * @param {*} wordArray
+ * @param {string[]} wordArray
  * @returns {string} String of random index of wordArray
  */
 function randomWord(wordArray) {
-    debugger;
     console.log(wordArray[Math.floor(Math.random() * 10)]);
     return wordArray[Math.floor(Math.random() * 10)];
 }
  
-// Funktionen som tar fram bokstävernas rutor, antal beror på vilket ord
 /**
  * Shows the correct amount of letterBoxes based on the length of word
  *
@@ -108,14 +107,22 @@ function setLetterBoxes(word) {
             letterBoxes[i].value = "";
         }
     } else {
-        alert("Error with word generation, aborting.");
+        alert("Error during word generation, aborting.");
     }
 }
 
-// Funktion som körs när du trycker på bokstäverna och gissar bokstav
+/**
+ * Checks if the letter on the pressed button is part of the selectedWord or not, 
+ * then adds the letter to the correct boxes. The first loop is also to fill foundWord,
+ * which is later checked against the length of selectedWord to determine if the game is won
+ * or not. If the pressed letter isn't part of the word, the hangManImgNr is incremented by one and changed.
+ * Finally the pressed button is disabled and if the foundWord is the same length as the selectedWord,
+ * gameEnd("win") is called which ends the game with a win.
+ *
+ * @param {string} selectedLetter
+ */
 function writeLetterBox(selectedLetter) {
     var foundLetter = false;
-    var gameWon;
     var foundWord = "";
 
     for (var i = 0; i < selectedWord.length; i++) {
@@ -130,8 +137,6 @@ function writeLetterBox(selectedLetter) {
     }
 
     if (foundLetter === false && hangmanImgNr < 8) {
-
-        var hangmanImgEl = document.querySelector("#hangman");
 
         hangmanImgNr++;
         hangmanImgEl.src = hangmanImg[hangmanImgNr];
@@ -150,7 +155,12 @@ function writeLetterBox(selectedLetter) {
     
 }
 
-// Funktionen ropas vid vinst eller förlust, gör olika saker beroende av det
+/**
+ * Function is called with string "win" or "lose". Removes the eventListener 
+ * from the letterButtons regardless of state.
+ *
+ * @param {string} state
+ */
 function gameEnd(state) {
     if (state === "win") {
         msgElem.textContent = ("Congratulations, you win!");
@@ -171,8 +181,9 @@ function gameEnd(state) {
     letterButtons.removeEventListener("click", buttonListener);
 }
 
-// Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på
-// Endast aktivering/återaktivering av knapparna, inaktivering är inbakad i funktionen som körs när man klickar på en knapp
+/**
+ * Function to reactivate all the letterButtons. Called when game starts.
+ */
 function reactivateButtons() {
 
     allLetterButtons = document.querySelectorAll("#letterButtons button");
