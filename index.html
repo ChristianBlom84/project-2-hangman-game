@@ -20,7 +20,10 @@
                 <li>Övriga regler</li>
             </ul>
         </article>
-        <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button>
+        <div id="startContainer">
+            <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button>
+            <p id="timer" class="btn">00:00</p>
+        </div>  
         <section id="gameBoard">
             <ul id="letterButtons">
                 <li><button class="btn btn--stripe" type="button" value="A">A</button></li>
@@ -77,7 +80,7 @@
         <div id="frogWin"></div>
     </main>
     <footer>
-        Chas Academy - Hangman
+        Christian Blom - Hangman
     </footer>
 </body>
 

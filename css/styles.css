@@ -94,9 +94,21 @@ footer {
   text-align: center;
 }
 
-#startGameBtn {
+#startGameBtn, #timer {
   font-size: 1.5em;
+}
+
+#startContainer {
+  max-width: 900px;
+  padding: 0 4px;
   margin: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+#timer {
+  padding: 19px 36px;
 }
 
 #gameBoard {

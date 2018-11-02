@@ -8,7 +8,7 @@ var hangmanImgEl; // Element for the hangmanImg
 var msgElem; // Ger meddelande när spelet är över
 var startGameBtn; // Knappen du startar spelet med
 var letterButtons; // Knapparna för bokstäverna
-var startTime; // Mäter tiden
+var timerInterval; // Intervall för timern
 var buttonListener; // Lagrar funktion för att hantera klick på bokstäver. Global för att kunna ta bort eventListener när spelet är över.
 
 // Funktion som körs då hela webbsidan är inladdad, dvs då all HTML-kod är utförd
@@ -78,6 +78,8 @@ function startGame() {
     selectedWord = randomWord(wordList);
     setLetterBoxes(selectedWord);
     reactivateButtons();
+    clearInterval(timerInterval);
+    timer();
 }
 
 /**
@@ -176,9 +178,12 @@ function gameEnd(state) {
 
     } else if (state === "lose") {
         msgElem.textContent = ("Too bad, you lost! Try again.");
+    } else if (state === "timeup") {
+        msgElem.textContent = ("Time\'s up, you lost! Try again.");
     }
 
     letterButtons.removeEventListener("click", buttonListener);
+    clearInterval(timerInterval);
 }
 
 /**
@@ -191,5 +196,41 @@ function reactivateButtons() {
     for (var i = 0; i < allLetterButtons.length; i++) {
         allLetterButtons[i].disabled = false;
     }
+
+}
+
+/**
+ * Function to activate and start timer.
+ *
+ */
+function timer () {
+    const timerEl = document.querySelector("#timer");
+    let currentTime = {
+        minutes: 00,
+        seconds: 00
+    };
+
+    timerInterval = setInterval(function() {
+        if (currentTime.seconds < 59) {
+            currentTime.seconds++;
+        } else if (currentTime.seconds === 59) {
+            currentTime.seconds = 0;
+            currentTime.minutes++;
+        }
+
+        if (currentTime.seconds <= 9) {
+            timerEl.textContent = "0" + currentTime.minutes + ":0" + currentTime.seconds;
+        } else {
+            timerEl.textContent = "0" + currentTime.minutes + ":" + currentTime.seconds;
+
+        }
+        
+        if (currentTime.minutes === 5) {
+            gameEnd("timeup");
+        }
+            
+
+    }, 1000);
+    
 
 }
