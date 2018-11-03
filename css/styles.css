@@ -147,14 +147,15 @@ footer {
   width: 84px;
 }
 
-#letterBoxes {
+#letterBoxes ul {
   display: flex;
   flex-flow: row wrap;
 }
 
-/* #letterBoxes li {
-  display: inline-flex;
-} */
+#letterBoxes li {
+  display: none;
+  margin-right: 5px;
+}
 
 #letterBoxes input {
   border: 1px solid #666;
@@ -166,7 +167,7 @@ footer {
   padding: 20px 5px;
   text-align: center;
   width: 2em;
-  display: none;
+  /* display: none; */
 }
 
 #letterBoxes input:disabled {

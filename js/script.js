@@ -33,7 +33,7 @@ function init() {
 
     startGameBtn.addEventListener("click", startGame);
 
-    letterBoxes = document.querySelectorAll("#letterBoxes li input");
+    letterBoxes = document.querySelectorAll("#letterBoxes li");
 
     letterButtons = document.querySelector("#letterButtons");
 
@@ -106,7 +106,7 @@ function setLetterBoxes(word) {
 
         for (var i = 0; i < word.length; i++) {
             letterBoxes[i].style.display = "block";
-            letterBoxes[i].value = "";
+            letterBoxes[i].firstChild.value = "";
         }
     } else {
         alert("Error during word generation, aborting.");
@@ -129,12 +129,12 @@ function writeLetterBox(selectedLetter) {
 
     for (var i = 0; i < selectedWord.length; i++) {
         if (selectedWord.charAt(i) === selectedLetter.target.value) {
-            letterBoxes[i].value = selectedLetter.target.value;
+            letterBoxes[i].firstChild.value = selectedLetter.target.value;
             foundLetter = true;
         } 
         
-        if (letterBoxes[i].value !== "") {
-            foundWord = foundWord + letterBoxes[i].value;
+        if (letterBoxes[i].firstChild.value !== "") {
+            foundWord = foundWord + letterBoxes[i].firstChild.value;
         }
     }
 
