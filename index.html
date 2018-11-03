@@ -3,9 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hangman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <script type="text/javascript" src="js/script.js"></script>
+    <title>Hangman</title>
 </head>
 
 <body>
@@ -15,10 +18,8 @@
     <main>
         <article>
             <h2>Välkommen till spelet Hänga gubbe.</h2>
-            <p>När du trycker på starta spelet, kommer datorn att välja ett ord slumpmässigt. Det kommer då dyka upp ett visst antal fält som motsvarar antalet bokstäver i ordet. Ditt mål är att gissa ordet genom att trycka på bokstavsknapparna. För varje bokstav du gissar rätt, så dyker det upp en bokstav på den plats som bokstaven du gissade på motsvarar i ordet. För varje fel så ritas ett extra steg av bilden på den hängda gubben upp. Ritas hela gubben upp har du förlorat.</p>
-            <ul>
-                <li>Övriga regler</li>
-            </ul>
+            <p>När du trycker på starta spelet, kommer datorn att välja ett ord slumpmässigt. Det kommer då dyka upp ett visst antal fält som motsvarar antalet bokstäver i ordet.</p>
+            <p>Ditt mål är att gissa ordet genom att trycka på bokstavsknapparna. För varje bokstav du gissar rätt, så dyker det upp en bokstav på den plats som bokstaven du gissade på motsvarar i ordet. För varje fel så ritas ett extra steg av bilden på den hängda gubben upp. Ritas hela gubben upp har du förlorat. Du har 5 minuter på dig.</p>
         </article>
         <div id="startContainer">
             <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button>

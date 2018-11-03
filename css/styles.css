@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+html {
+  font-size: 18px;
+}
+
 body {
   color: #666;
   font-family: sans-serif;
@@ -22,6 +26,16 @@ body {
   min-height: 100vh;
 }
 
+h1, h2, h3 {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+p {
+  line-height: 1.5rem;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 1rem;
+}
+
 header {
   background-color: silver;
   color: #fff;
@@ -29,23 +43,24 @@ header {
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+  padding: 1rem 0;
 }
 
 header h1 {
   margin: 0;
-  font-size: 4.5em;
+  font-size: 2.5em;
   text-align: center;
 }
 
 main {
   flex: 1;
-  padding: 1.5em;
+  padding: 1em 0.5rem;
 }
 
 main:after {
   content: "\00a0"; /* &nbsp; */
   display: block;
-  margin-top: var(--space);
+  /* margin-top: var(--space); */
   height: 0px;
   visibility: hidden;
 }
@@ -53,7 +68,7 @@ main:after {
 main > article {
   display: flex;
   flex-direction: column;
-  padding: 1.5em;
+  padding: 1em 0;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -70,7 +85,7 @@ main > article > button {
 main > article > h2 {
   text-align: center;
   color: #777;
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 }
 
 section {
@@ -100,15 +115,18 @@ footer {
 
 #startContainer {
   max-width: 900px;
+  min-height: 155px;
   padding: 0 4px;
   margin: auto;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: space-between;
 }
 
 #timer {
-  padding: 19px 36px;
+  padding: calc(1rem + 1px) 2rem;
+  cursor: auto;
+  text-align: center;
 }
 
 #gameBoard {
@@ -116,9 +134,9 @@ footer {
 }
 
 #letterButtons {
-  display: inline-flex;
+  display: flex;
   list-style-type: none;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
 }
@@ -126,13 +144,17 @@ footer {
 #letterButtons button:not(last-child) {
   margin: 4px 4px;
   cursor: pointer;
-  max-width: 84px;
-  min-width: 84px;
+  width: 84px;
 }
 
-#letterBoxes li {
-  display: inline-flex;
+#letterBoxes {
+  display: flex;
+  flex-flow: row wrap;
 }
+
+/* #letterBoxes li {
+  display: inline-flex;
+} */
 
 #letterBoxes input {
   border: 1px solid #666;
@@ -145,6 +167,12 @@ footer {
   text-align: center;
   width: 2em;
   display: none;
+}
+
+#letterBoxes input:disabled {
+  -webkit-text-fill-color: #666;
+  -webkit-opacity:1;
+  opacity: 1;
 }
 
 #message {
@@ -242,6 +270,10 @@ footer {
   border-top: 1px solid #000;
 }
 
+#hangman {
+  width: 100%;
+}
+
 #frogWin {
   z-index: 100;
   position: absolute;
@@ -252,4 +284,24 @@ footer {
   background: center no-repeat url(../images/gamewin.png);
   background-color: rgba(100, 100, 100, 0.5);
   display: none;
+}
+
+@media screen and (min-width: 600px) {
+
+  html {
+    font-size: 20px;
+  }
+
+  #startContainer {
+    flex-flow: row nowrap;
+    min-height: 0;
+  }
+
+  #startGameBtn {
+    max-width: 300px;
+  }
+
+  #startGameBtn, #timer {
+    font-size: 1rem;
+  }
 }

@@ -105,7 +105,7 @@ function setLetterBoxes(word) {
         }
 
         for (var i = 0; i < word.length; i++) {
-            letterBoxes[i].style.display = "inline-flex";
+            letterBoxes[i].style.display = "block";
             letterBoxes[i].value = "";
         }
     } else {
@@ -158,8 +158,8 @@ function writeLetterBox(selectedLetter) {
 }
 
 /**
- * Function is called with string "win" or "lose". Removes the eventListener 
- * from the letterButtons regardless of state.
+ * Function is called with string "win", "lose" or "timeup" and ends the game appropriately. Removes the eventListener 
+ * from the letterButtons and ends the timer's setInterval regardless of state.
  *
  * @param {string} state
  */
@@ -201,7 +201,6 @@ function reactivateButtons() {
 
 /**
  * Function to activate and start timer.
- *
  */
 function timer () {
     const timerEl = document.querySelector("#timer");
