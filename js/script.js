@@ -107,6 +107,9 @@ function setLetterBoxes(word) {
         for (var i = 0; i < word.length; i++) {
             letterBoxes[i].style.display = "block";
             letterBoxes[i].firstChild.value = "";
+            if (i == (word.length -1)) {
+                letterBoxes[i].style.marginRight = "auto";
+            }
         }
     } else {
         alert("Error during word generation, aborting.");

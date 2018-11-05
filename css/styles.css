@@ -52,6 +52,18 @@ header h1 {
   text-align: center;
 }
 
+article {
+  padding: 1em;
+  /* max-width: 900px;
+  margin: auto; */
+}
+
+article > h2 {
+  text-align: center;
+  color: #777;
+  margin-bottom: 1em;
+}
+
 main {
   flex: 1;
   padding: 1em 0.5rem;
@@ -65,32 +77,14 @@ main:after {
   visibility: hidden;
 }
 
-main > article {
-  display: flex;
-  flex-direction: column;
-  padding: 1em 0;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  max-width: 900px;
-  margin: auto;
-}
-
-main > article > button {
+/* main article > button {
   align-content: center;
   justify-content: center;
-}
-
-main > article > h2 {
-  text-align: center;
-  color: #777;
-  margin-bottom: 1em;
-}
+} */
 
 section {
   max-width: 900px;
-  margin: auto;
+  /* margin: auto; */
 }
 
 ul {
@@ -117,7 +111,7 @@ footer {
   max-width: 900px;
   min-height: 155px;
   padding: 0 4px;
-  margin: auto;
+  /* margin: auto; */
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
@@ -179,6 +173,7 @@ footer {
 #message {
   padding-top: 20px;
   font-size: 1.5em;
+  text-align: center;
 }
 
 .btn {
@@ -277,12 +272,12 @@ footer {
 
 #frogWin {
   z-index: 100;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: center no-repeat url(../images/gamewin.png);
+  background: center/contain no-repeat url(../images/gamewin.png);
   background-color: rgba(100, 100, 100, 0.5);
   display: none;
 }
@@ -291,6 +286,15 @@ footer {
 
   html {
     font-size: 20px;
+  }
+
+  main {
+    flex: 1;
+    padding: 1em 0.5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
   }
 
   #startContainer {
@@ -304,5 +308,29 @@ footer {
 
   #startGameBtn, #timer {
     font-size: 1rem;
+  }
+
+  .containerLeft, .containerRight {
+    width: 45%;
+  }
+
+  #letterBoxes input {
+    margin: 0;
+    line-height: 1rem;
+    padding: 15px 5px;
+  }
+
+  #letterBoxes li:first-child {
+    margin-left: auto;
+  }
+
+  .letterBoxesMarginRight {
+    margin-right: auto;
+  }
+
+  #hangman {
+    width: 75%;
+    display: block;
+    margin: auto;
   }
 }
