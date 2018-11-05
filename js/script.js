@@ -107,6 +107,7 @@ function setLetterBoxes(word) {
         for (var i = 0; i < word.length; i++) {
             letterBoxes[i].style.display = "block";
             letterBoxes[i].firstChild.value = "";
+            letterBoxes[i].style.marginRight = "";
             if (i == (word.length -1)) {
                 letterBoxes[i].style.marginRight = "auto";
             }
@@ -181,6 +182,15 @@ function gameEnd(state) {
 
     } else if (state === "lose") {
         msgElem.textContent = ("Too bad, you lost! Try again.");
+
+        var frogEl = document.querySelector("#frogLoss");
+        frogEl.style.display = "block";
+
+        function removeFrog () {
+            frogEl.style.display = "none";
+            frogEl.removeEventListener("click", removeFrog);
+        }
+        frogEl.addEventListener("click", removeFrog);
     } else if (state === "timeup") {
         msgElem.textContent = ("Time\'s up, you lost! Try again.");
     }

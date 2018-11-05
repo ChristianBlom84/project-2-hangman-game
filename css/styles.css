@@ -282,19 +282,22 @@ footer {
   display: none;
 }
 
+#frogLoss {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: center/contain no-repeat url(../images/gameloss.png);
+  background-color: rgba(100, 100, 100, 0.5);
+  display: none;
+}
+
 @media screen and (min-width: 600px) {
 
   html {
     font-size: 20px;
-  }
-
-  main {
-    flex: 1;
-    padding: 1em 0.5rem;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: flex-start;
-    justify-content: space-between;
   }
 
   #startContainer {
@@ -309,15 +312,29 @@ footer {
   #startGameBtn, #timer {
     font-size: 1rem;
   }
+    
+}
+
+@media screen and (min-width: 1200px) {
+
+  main {
+    flex: 1;
+    padding: 1em 0.5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
 
   .containerLeft, .containerRight {
-    width: 45%;
+    width: 46%;
   }
 
   #letterBoxes input {
     margin: 0;
     line-height: 1rem;
     padding: 15px 5px;
+    width: 2rem;
   }
 
   #letterBoxes li:first-child {
