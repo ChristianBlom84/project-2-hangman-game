@@ -11,9 +11,11 @@ var letterButtons; // Knapparna för bokstäverna
 var timerInterval; // Intervall för timern
 var buttonListener; // Lagrar funktion för att hantera klick på bokstäver. Global för att kunna ta bort eventListener när spelet är över.
 
-// Funktion som körs då hela webbsidan är inladdad, dvs då all HTML-kod är utförd
-// Initiering av globala variabler samt koppling av funktioner till knapparna.
-
+/**
+ * Function is run at window.onload. The global variables are initialized and the startGame function is tied
+ * to the startButton. The listener for the letterButtons is initialized once the startGame button is pressed.
+ *
+ */
 function init() {
 
     wordList = [
@@ -30,7 +32,6 @@ function init() {
     ];
 
     startGameBtn = document.querySelector("#startGameBtn");
-
     startGameBtn.addEventListener("click", startGame);
 
     letterBoxes = document.querySelectorAll("#letterBoxes li");
@@ -38,10 +39,10 @@ function init() {
     letterButtons = document.querySelector("#letterButtons");
 
     buttonListener = function(e) {
-        if (e.target !== e.currentTarget) {
+        if (e.target.matches("button")) {
             writeLetterBox(e);
         }
-    
+
         e.stopPropagation();
     }
 
@@ -56,8 +57,6 @@ function init() {
         "images/h7.png",
         "images/h8.png"
     ];
-
-    hangmanImgNr = 0;
     hangmanImgEl = document.querySelector("#hangman");
 
     msgElem = document.querySelector("#message");
@@ -66,12 +65,21 @@ function init() {
 
 window.onload = init; // Se till att init aktiveras då sidan är inladdad
 
-// Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
-
+/**
+ * This function starts the game when the startGameBtn is pressed. It resets the hangmanImg and shows
+ * the background div for the timer and letterBoxes on screens smaller than 400px. It also resets the msgElem text
+ * and adds an eventlistener for the <ul> of the letterButtons. The function buttonListener checks that the click
+ * target is a button, so it doesn't catch clicks outside the buttons but inside the <ul>. The word is selected from
+ * the wordList, which shows the correct amount of letterBoxes with setLetterBoxes(). The letterButtons are reactivated
+ * and the timer interval is cleared. Finally the timer is started.
+ */
 function startGame() {
 
     hangmanImgNr = 0;
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
+    let backgroundTopEl = document.querySelector("#backgroundTop");
+    backgroundTopEl.style.display = "block";
+    backgroundTopEl.style.height = "30%";
 
     msgElem.textContent = "";
     letterButtons.addEventListener("click", buttonListener);
@@ -89,7 +97,6 @@ function startGame() {
  * @returns {string} String of random index of wordArray
  */
 function randomWord(wordArray) {
-    console.log(wordArray[Math.floor(Math.random() * 10)]);
     return wordArray[Math.floor(Math.random() * 10)];
 }
  
@@ -168,31 +175,32 @@ function writeLetterBox(selectedLetter) {
  * @param {string} state
  */
 function gameEnd(state) {
+    let frogElWin = document.querySelector("#frogWin");
+    let frogElLoss = document.querySelector("#frogLoss");
+    /**
+     * frog() takes the HTML Element of the #frogWin or #frogLoss divs as a parameter to show the appropriate one at game end
+     * and adds an eventlistener to remove them onclick.
+     * 
+     * @param {HTMLElement} frogState
+     */
+    function frog(frogState) {
+        frogState.style.display = "block";
+        frogState.addEventListener("click", removeFrog);
+        function removeFrog () {
+            frogState.style.display = "none";
+            frogState.removeEventListener("click", removeFrog);
+        }
+    }
+
     if (state === "win") {
         msgElem.textContent = ("Congratulations, you win!");
-        
-        var frogEl = document.querySelector("#frogWin");
-        frogEl.style.display = "block";
-
-        function removeFrog () {
-            frogEl.style.display = "none";
-            frogEl.removeEventListener("click", removeFrog);
-        }
-        frogEl.addEventListener("click", removeFrog);
-
+        frog(frogElWin);
     } else if (state === "lose") {
         msgElem.textContent = ("Too bad, you lost! Try again.");
-
-        var frogEl = document.querySelector("#frogLoss");
-        frogEl.style.display = "block";
-
-        function removeFrog () {
-            frogEl.style.display = "none";
-            frogEl.removeEventListener("click", removeFrog);
-        }
-        frogEl.addEventListener("click", removeFrog);
+        frog(frogElLoss);
     } else if (state === "timeup") {
         msgElem.textContent = ("Time\'s up, you lost! Try again.");
+        frog(frogElLoss);
     }
 
     letterButtons.removeEventListener("click", buttonListener);
@@ -218,16 +226,16 @@ function reactivateButtons() {
 function timer () {
     const timerEl = document.querySelector("#timer");
     let currentTime = {
-        minutes: 00,
+        minutes: 05,
         seconds: 00
     };
 
     timerInterval = setInterval(function() {
-        if (currentTime.seconds < 59) {
-            currentTime.seconds++;
-        } else if (currentTime.seconds === 59) {
-            currentTime.seconds = 0;
-            currentTime.minutes++;
+        if (currentTime.seconds > 0) {
+            currentTime.seconds--;
+        } else if (currentTime.seconds === 0) {
+            currentTime.seconds = 59;
+            currentTime.minutes--;
         }
 
         if (currentTime.seconds <= 9) {
@@ -237,12 +245,10 @@ function timer () {
 
         }
         
-        if (currentTime.minutes === 5) {
+        if (currentTime.minutes === 0 && currentTime.seconds === 0) {
             gameEnd("timeup");
         }
             
 
     }, 1000);
-    
-
 }

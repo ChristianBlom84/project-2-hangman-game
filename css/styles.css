@@ -294,7 +294,48 @@ footer {
   display: none;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 400px) {
+  #letterBoxes {
+    position: fixed;
+    top: 10%;
+    left: 0;
+    width: 50%;
+    z-index: 10;
+  }
+
+  #letterBoxes li {
+    max-width: 10%;
+    margin: 0;
+  }
+
+  #letterBoxes input {
+    width: 100%;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 0;
+
+  }
+
+  #hangman {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    z-index: 10;
+  }
+
+  #backgroundTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: rgba(251, 254, 255, 0.9);
+    display: none;
+  }
+}
+
+@media screen and (min-width: 500px) {
 
   html {
     font-size: 20px;
