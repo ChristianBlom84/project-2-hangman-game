@@ -75,8 +75,8 @@
 <span class='line'> 68</span> </span><span class="COMM">/**
 <span class='line'> 69</span>  * This function starts the game when the startGameBtn is pressed. It resets the hangmanImg and shows
 <span class='line'> 70</span>  * the background div for the timer and letterBoxes on screens smaller than 400px. It also resets the msgElem text
-<span class='line'> 71</span>  * and adds an eventlistener for the &lt;ul> of the letterButtons. The function buttonListener checks that the click
-<span class='line'> 72</span>  * target is a button, so it doesn't catch clicks outside the buttons but inside the &lt;ul>. The word is selected from
+<span class='line'> 71</span>  * and adds an eventlistener for the ul of the letterButtons. The function buttonListener checks that the click
+<span class='line'> 72</span>  * target is a button, so it doesn't catch clicks outside the buttons but inside the ul. The word is selected from
 <span class='line'> 73</span>  * the wordList, which shows the correct amount of letterBoxes with setLetterBoxes(). The letterButtons are reactivated
 <span class='line'> 74</span>  * and the timer interval is cleared. Finally the timer is started.
 <span class='line'> 75</span>  */</span><span class="WHIT">
@@ -178,7 +178,7 @@
 <span class='line'>171</span> </span><span class="COMM">/**
 <span class='line'>172</span>  * Function is called with string "win", "lose" or "timeup" and ends the game appropriately. Removes the eventListener 
 <span class='line'>173</span>  * from the letterButtons and ends the timer's setInterval regardless of state.
-<span class='line'>174</span>  *
+<span class='line'>174</span>  * 
 <span class='line'>175</span>  * @param {string} state
 <span class='line'>176</span>  */</span><span class="WHIT">
 <span class='line'>177</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">gameEnd</span><span class="PUNC">(</span><span class="NAME">state</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">

@@ -68,8 +68,8 @@ window.onload = init; // Se till att init aktiveras då sidan är inladdad
 /**
  * This function starts the game when the startGameBtn is pressed. It resets the hangmanImg and shows
  * the background div for the timer and letterBoxes on screens smaller than 400px. It also resets the msgElem text
- * and adds an eventlistener for the <ul> of the letterButtons. The function buttonListener checks that the click
- * target is a button, so it doesn't catch clicks outside the buttons but inside the <ul>. The word is selected from
+ * and adds an eventlistener for the ul of the letterButtons. The function buttonListener checks that the click
+ * target is a button, so it doesn't catch clicks outside the buttons but inside the ul. The word is selected from
  * the wordList, which shows the correct amount of letterBoxes with setLetterBoxes(). The letterButtons are reactivated
  * and the timer interval is cleared. Finally the timer is started.
  */
@@ -171,7 +171,7 @@ function writeLetterBox(selectedLetter) {
 /**
  * Function is called with string "win", "lose" or "timeup" and ends the game appropriately. Removes the eventListener 
  * from the letterButtons and ends the timer's setInterval regardless of state.
- *
+ * 
  * @param {string} state
  */
 function gameEnd(state) {
