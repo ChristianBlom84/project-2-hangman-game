@@ -30,7 +30,7 @@ h1, h2, h3 {
   font-family: 'Open Sans Condensed', sans-serif;
 }
 
-p {
+p, input {
   line-height: 1.5rem;
   font-family: 'Open Sans', sans-serif;
   margin-bottom: 1rem;
@@ -109,12 +109,20 @@ footer {
 
 #startContainer {
   max-width: 900px;
-  min-height: 155px;
+  min-height: 200px;
   padding: 0 4px;
   /* margin: auto; */
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
+}
+
+#startContainer input {
+  height: 2rem;
+  margin: 0;
+  border-radius: 6px;
+  border: 0;
+  border: 2px solid #666;
 }
 
 #timer {
