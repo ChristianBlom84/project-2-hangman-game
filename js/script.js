@@ -10,11 +10,11 @@ var startGameBtn; // Knappen du startar spelet med
 var letterButtons; // Knapparna för bokstäverna
 var timerInterval; // Intervall för timern
 var buttonListener; // Lagrar funktion för att hantera klick på bokstäver. Global för att kunna ta bort eventListener när spelet är över.
+var guessButton; // Knapp för att gissa ord
 
 /**
  * Function is run at window.onload. The global variables are initialized and the startGame function is tied
  * to the startButton. The listener for the letterButtons is initialized once the startGame button is pressed.
- *
  */
 function init() {
 
@@ -33,6 +33,8 @@ function init() {
 
     startGameBtn = document.querySelector("#startGameBtn");
     startGameBtn.addEventListener("click", startGame);
+
+    guessButton = document.querySelector("#guessButton");
 
     letterBoxes = document.querySelectorAll("#letterBoxes li");
 
@@ -74,15 +76,24 @@ window.onload = init; // Se till att init aktiveras då sidan är inladdad
  * and the timer interval is cleared. Finally the timer is started.
  */
 function startGame() {
+    let backgroundTopEl = document.querySelector("#backgroundTop");
+    let guessInputEl = document.querySelector("#guessInput");
 
     hangmanImgNr = 0;
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
-    let backgroundTopEl = document.querySelector("#backgroundTop");
+
     backgroundTopEl.style.display = "block";
     backgroundTopEl.style.height = "30%";
 
     msgElem.textContent = "";
     letterButtons.addEventListener("click", buttonListener);
+    guessButton.addEventListener("click", guessWord);
+    guessInputEl.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            guessWord();
+        }
+    })
+
     selectedWord = randomWord(wordList);
     setLetterBoxes(selectedWord);
     reactivateButtons();
@@ -128,7 +139,7 @@ function setLetterBoxes(word) {
  * Checks if the letter on the pressed button is part of the selectedWord or not, 
  * then adds the letter to the correct boxes. The first loop is also to fill foundWord,
  * which is later checked against the length of selectedWord to determine if the game is won
- * or not. If the pressed letter isn't part of the word, the hangManImgNr is incremented by one and changed.
+ * or not. If the pressed letter isn't part of the word, wrongGuess is called.
  * Finally the pressed button is disabled and if the foundWord is the same length as the selectedWord,
  * gameEnd("win") is called which ends the game with a win.
  *
@@ -150,14 +161,7 @@ function writeLetterBox(selectedLetter) {
     }
 
     if (foundLetter === false && hangmanImgNr < 8) {
-
-        hangmanImgNr++;
-        hangmanImgEl.src = hangmanImg[hangmanImgNr];
-
-        if (hangmanImgNr >= 8) {
-            gameEnd("lose");
-        }
-
+        wrongGuess();
     }
 
     selectedLetter.target.disabled = true;
@@ -204,6 +208,7 @@ function gameEnd(state) {
     }
 
     letterButtons.removeEventListener("click", buttonListener);
+    guessButton.removeEventListener("click", guessWord);
     clearInterval(timerInterval);
 }
 
@@ -251,4 +256,37 @@ function timer () {
             
 
     }, 1000);
+}
+
+/**
+ * Checks the guessedWord, if it's correct gameEnd is called with "win".
+ * If the guess is incorrect, wrongGuess is called.
+ *
+ */
+function guessWord() {
+    let guessEl = document.querySelector("#guessInput");
+    let guessedWord = guessEl.value.toUpperCase();
+
+    if (guessedWord === selectedWord) {
+        for (var i = 0; i < selectedWord.length; i++) {
+            letterBoxes[i].firstChild.value = selectedWord.charAt(i);
+        }
+        gameEnd("win");
+    } else {
+        wrongGuess();
+    }
+}
+
+/**
+ * Increments the hangmanImg by one and calls endGame with "loss" if the player
+ * has used all his guesses.
+ *
+ */
+function wrongGuess() {
+    hangmanImgNr++;
+    hangmanImgEl.src = hangmanImg[hangmanImgNr];
+
+    if (hangmanImgNr >= 8) {
+        gameEnd("lose");
+    }
 }

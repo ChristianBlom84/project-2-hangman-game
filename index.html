@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <h1>Uppgift 02 - Hangman</h1>
+        <h1>Hangman</h1>
     </header>
     <article>
             <h2>Välkommen till spelet Hänga gubbe.</h2>
@@ -24,7 +24,10 @@
         <div class="containerLeft">
             <div id="startContainer">
                 <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button>
-                <input type="text" placeholder="Gissa ordet" aria-label="Gissa ordet">
+                <div id="guessContainer">
+                    <input type="text" id="guessInput" name="guess" placeholder="Gissa ordet" aria-label="Gissa ordet">
+                    <button class="btn btn--stripe" type="button" id="guessButton">Gissa</button>
+                </div>
                 <p id="timer" class="btn">05:00</p>
             </div>  
             <section id="gameBoard">
