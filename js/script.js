@@ -13,6 +13,7 @@ var buttonListener; // Lagrar funktion för att hantera klick på bokstäver. Gl
 var guessButton; // Knapp för att gissa ord
 var guessInputEl; // Element för inputfältet där man gissar ord
 let backgroundTopEl; // Bakgrund för letterBoxes och hangman på små skärmar
+var guessEnter; // Function for eventListener on the Enter button in the input field 
 
 /**
  * Function is run at window.onload. The global variables are initialized and the startGame function is tied
@@ -37,6 +38,7 @@ function init() {
     startGameBtn.addEventListener("click", startGame);
 
     guessButton = document.querySelector("#guessButton");
+    guessInputEl = document.querySelector("#guessInput");
 
     letterBoxes = document.querySelectorAll("#letterBoxes li");
 
@@ -80,21 +82,20 @@ window.onload = init; // Se till att init aktiveras då sidan är inladdad
  * and the timer interval is cleared. Finally the timer is started.
  */
 function startGame() {
-    guessInputEl = document.querySelector("#guessInput");
-    const guessEnter = (e) => {
+    guessEnter = (e) => {
         if (e.key === "Enter") {
             guessWord();
-            stopPropagation();
         }
+        e.stopPropagation();
     }
 
     hangmanImgNr = 0;
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
-
     backgroundTopEl.style.display = "block";
     backgroundTopEl.style.height = "15%";
-
     msgElem.textContent = "";
+    guessInputEl.value = "";
+
     letterButtons.addEventListener("click", buttonListener);
     guessButton.addEventListener("click", guessWord);
     guessInputEl.addEventListener("keypress", guessEnter);
@@ -186,12 +187,11 @@ function writeLetterBox(selectedLetter) {
 function gameEnd(state) {
     let frogElWin = document.querySelector("#frogWin");
     let frogElLoss = document.querySelector("#frogLoss");
-    const guessEnter = (e) => {
-        if (e.key === "Enter") {
-            guessWord();
-            stopPropagation();
-        }
-    }
+
+    clearInterval(timerInterval);
+    letterButtons.removeEventListener("click", buttonListener);
+    guessButton.removeEventListener("click", guessWord);
+    guessInputEl.removeEventListener("keypress", guessEnter);
     /**
      * frog() takes the HTML Element of the #frogWin or #frogLoss divs as a parameter to show the appropriate one at game end
      * and adds an eventlistener to remove them onclick.
@@ -199,8 +199,6 @@ function gameEnd(state) {
      * @param {HTMLElement} frogState
      */
     function frog(frogState) {
-        // backgroundTopEl.style.height = "0";
-        // backgroundTopEl.style.display = "none";
         frogState.style.display = "block";
         frogState.addEventListener("click", removeFrog);
         function removeFrog () {
@@ -219,12 +217,6 @@ function gameEnd(state) {
         msgElem.textContent = ("Time\'s up, you lost! Try again.");
         frog(frogElLoss);
     }
-
-    clearInterval(timerInterval);
-    letterButtons.removeEventListener("click", buttonListener);
-    guessButton.removeEventListener("click", guessWord);
-    guessInputEl.removeEventListener("keypress", guessEnter);
-    getEventListeners(document);
 }
 
 /**
