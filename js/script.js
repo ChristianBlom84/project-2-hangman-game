@@ -1,19 +1,18 @@
-// Global variables
-var wordList; // List of all the available words
-var selectedWord; // A random word from the wordList
-var letterBoxes; // The boxes where the guessed letters are shown
-var hangmanImg; // Array of the hangman images
-var hangmanImgNr; // Tracks how many errors have been made and is used to show the correct hangmanImg
+// Globala variabler
+var wordList; // Lista med spelets alla ord
+var selectedWord; // Ett av orden valt av en slumpgenerator
+var letterBoxes; //Rutorna där bokstäverna ska stå
+var hangmanImg; //Bild som kommer vid fel svar
+var hangmanImgNr; // Vilken av bilderna som kommer upp beroende på hur många fel du gjort
 var hangmanImgEl; // Element for the hangmanImg
-var msgElem; // Shows a message when the game ends
-var startGameBtn; // The button element that starts the game
-var letterButtons; // Contains the parent ul of the letterButtons
-var timerInterval; // Timer interval, used to stop the timer at game end
-var buttonListener; // Stores the function tied to the eventListener for the letterButtons. 
-var guessButton; // Button to register a guess for the whole word
-var guessInputEl; // Stores the element of the input field to guess the word
-let backgroundTopEl; // Background div for screens narrower than 400px
-var guessEnter; // Function for eventListener on the Enter button in the input field 
+var msgElem; // Ger meddelande när spelet är över
+var startGameBtn; // Knappen du startar spelet med
+var letterButtons; // Knapparna för bokstäverna
+var timerInterval; // Intervall för timern
+var buttonListener; // Lagrar funktion för att hantera klick på bokstäver. Global för att kunna ta bort eventListener när spelet är över.
+var guessButton; // Knapp för att gissa ord
+var guessInputEl; // Element för inputfältet där man gissar ord
+let backgroundTopEl; // Bakgrund för letterBoxes och hangman på små skärmar
 
 /**
  * Function is run at window.onload. The global variables are initialized and the startGame function is tied
@@ -38,14 +37,6 @@ function init() {
     startGameBtn.addEventListener("click", startGame);
 
     guessButton = document.querySelector("#guessButton");
-    guessInputEl = document.querySelector("#guessInput");
-
-    guessEnter = (e) => {
-        if (e.key === "Enter") {
-            guessWord();
-        }
-        e.stopPropagation();
-    }
 
     letterBoxes = document.querySelectorAll("#letterBoxes li");
 
@@ -78,7 +69,7 @@ function init() {
 
 } // End init
 
-window.onload = init; // Activates the init() function once the page is loaded
+window.onload = init; // Se till att init aktiveras då sidan är inladdad
 
 /**
  * This function starts the game when the startGameBtn is pressed. It resets the hangmanImg and shows
@@ -89,13 +80,21 @@ window.onload = init; // Activates the init() function once the page is loaded
  * and the timer interval is cleared. Finally the timer is started.
  */
 function startGame() {
+    guessInputEl = document.querySelector("#guessInput");
+    const guessEnter = (e) => {
+        if (e.key === "Enter") {
+            guessWord();
+            stopPropagation();
+        }
+    }
+
     hangmanImgNr = 0;
     hangmanImgEl.src = hangmanImg[hangmanImgNr];
-    backgroundTopEl.style.display = "block";
-    backgroundTopEl.style.height = "15%";
-    msgElem.textContent = "";
-    guessInputEl.value = "";
 
+    backgroundTopEl.style.display = "block";
+    backgroundTopEl.style.height = "25%";
+
+    msgElem.textContent = "";
     letterButtons.addEventListener("click", buttonListener);
     guessButton.addEventListener("click", guessWord);
     guessInputEl.addEventListener("keypress", guessEnter);
@@ -187,19 +186,15 @@ function writeLetterBox(selectedLetter) {
 function gameEnd(state) {
     let frogElWin = document.querySelector("#frogWin");
     let frogElLoss = document.querySelector("#frogLoss");
-
-    clearInterval(timerInterval);
-    letterButtons.removeEventListener("click", buttonListener);
-    guessButton.removeEventListener("click", guessWord);
-    guessInputEl.removeEventListener("keypress", guessEnter);
     /**
      * frog() takes the HTML Element of the #frogWin or #frogLoss divs as a parameter to show the appropriate one at game end
      * and adds an eventlistener to remove them onclick.
      * 
-     * @inner
      * @param {HTMLElement} frogState
      */
     function frog(frogState) {
+        // backgroundTopEl.style.height = "0";
+        // backgroundTopEl.style.display = "none";
         frogState.style.display = "block";
         frogState.addEventListener("click", removeFrog);
         function removeFrog () {
@@ -218,6 +213,12 @@ function gameEnd(state) {
         msgElem.textContent = ("Time\'s up, you lost! Try again.");
         frog(frogElLoss);
     }
+
+    clearInterval(timerInterval);
+    letterButtons.removeEventListener("click", buttonListener);
+    guessButton.removeEventListener("click", guessWord);
+    guessInputEl.removeEventListener("keypress", guessEnter);
+    getEventListeners(document);
 }
 
 /**
@@ -239,8 +240,8 @@ function reactivateButtons() {
 function timer () {
     const timerEl = document.querySelector("#timer");
     let currentTime = {
-        minutes: 5,
-        seconds: 0
+        minutes: 05,
+        seconds: 00
     };
 
     timerInterval = setInterval(function() {
@@ -269,6 +270,7 @@ function timer () {
 /**
  * Checks the guessedWord, if it's correct gameEnd is called with "win".
  * If the guess is incorrect, wrongGuess is called.
+ *
  */
 function guessWord() {
     let guessEl = document.querySelector("#guessInput");
@@ -287,6 +289,7 @@ function guessWord() {
 /**
  * Increments the hangmanImg by one and calls endGame with "loss" if the player
  * has used all his guesses.
+ *
  */
 function wrongGuess() {
     hangmanImgNr++;
